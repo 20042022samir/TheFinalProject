@@ -1,0 +1,15 @@
+﻿
+<button style="width:100px;height:30px;" id="channgeBtn" >Change</button>
+<h1 id="sign"  style="height:100vh;display:flex;justify-content:center;align-items:center;" >:)</h1>
+
+<script>
+	const ChangeBtn = document.getElementById("channgeBtn");
+	const sign = document.getElementById("sign")
+	ChangeBtn.addEventListener("click",()=>{
+		if (sign.textContent == ":)"){
+			sign.textContent = ":("
+		}else{
+			sign.textContent = ":)"
+		}
+	})
+</script>

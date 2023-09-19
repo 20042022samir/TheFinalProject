@@ -1,0 +1,350 @@
+﻿<style>
+    select{
+        padding:8px;
+    }
+    option{
+        padding:8px;
+    }
+</style> 
+@model HomeViewModel
+@{
+    int num = 0;
+}
+@if (num == 0 && !string.IsNullOrWhiteSpace((string)TempData["Registered"]))
+{
+    <div style="display:none" id="alert-message">@TempData["Registered"]</div>
+}
+
+@{
+    bool Addded = false;
+    int counter = 0;
+}
+
+<!--Section 1-->
+<section id="section1" style="position: relative;">
+    <div id="section1Container">
+        
+        <div style="display:flex;column-gap:10px;" >
+        <button id="alisBtn" style="padding:5px 7px; background-color:black;color:white;" >Alis Ucun</button>
+            <button id="satisBtn" style="padding:5px 7px;">Kira Ucun</button>
+        </div>
+        <div id="section1Up"  >
+            <form method="post" asp-controller="home" asp-action="filterrentedhouses">
+            <div id="section1Left">
+                
+                <div class="section1LeftPart">
+                   
+                    <select asp-for="TypeeId" >
+                        <option value="@null">Ev Tipi</option>
+                        @foreach (var item in Model.Typees)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                    <select asp-for="CountryId" >
+                        <option value="@null">Olke</option>
+                        @foreach (var item in Model.Countries)
+                            {
+                             <option value="@item.Id">@item.Name</option>   
+                            }
+                    </select>
+                    <select asp-for="MetroId" >
+                        <option value="@null">Metro</option>
+                        @foreach (var item in Model.Metros)
+                            {
+                                <option value="@item.Id" >@item.Name</option>
+                            }
+                    </select>
+                </div>
+                <div class="section1LeftPart">
+                    <select asp-for="SalePriceId" >
+                        <option value="@null" >Qiymet</option>
+                        @foreach (var item in Model.SalePrices)
+                        {
+                            <option value="@item.Id">@item.FromPrice - @item.ToPrice</option>
+                        }
+                    </select>
+                    <select asp-for="CityId" >
+                        <option value="@null">Seher</option>
+                        @foreach (var item in Model.Cities)
+                            {
+                                <option value="@item.Id" >@item.Name</option>
+                            }
+                    </select>
+                    <select asp-for="RoomCount" >
+                        <option value="@null">Otaq Sayi</option>
+                        @for (int i = 0; i <=10 ; i++)
+                            {
+                                <option value="@i">@i otaqli</option>
+                            }
+
+                    </select>
+                </div>
+            </div>
+            <div id="section1Right">
+                <div id="etrafliAxtaris">
+                    <span style="color: #B1924C;">+</span>
+                    <span style="color: #B1924C;">Etrafli Axtaris</span>
+                </div>
+                <button type="submit" style="background-color: #B1924C;height: 40px; cursor: pointer;">Axtar</button>
+            </div>
+            </form>
+        </div>
+        <div id="section1UpSale" style="margin:auto;border:3px solid black;padding:20px 50px;border-radius:12px;display:none;width:70%;">
+                    <form method="post" asp-controller="home" asp-action="getsealedhouses"  >
+            <div id="section1Left">
+                <div class="section1LeftPart">
+                      
+                    <select asp-for="TypeeId" >
+                        <option value="@null">Tip</option>
+                        @foreach (var item in Model.Typees)
+                        {
+                           <option value="@item.Id">@item.Name</option>
+                        }
+                    </select>
+                    <select asp-for="CountryId" >
+                        <option value="@null" >Olke</option>
+                        @foreach (var item in Model.Countries)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                    </select>
+                    <select asp-for="MetroId" >
+                        <option value="@null">Metro</option>
+                        @foreach (var item in Model.Metros)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                    </select>
+                        <select asp-for="DistinceId">
+                            <option value="@null">Rayon</option>
+                            @foreach (var item in Model.Distincts)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+
+                </div>
+                <div class="section1LeftPart">
+                    <select asp-for="PriceId" >
+                        <option asp-for="@null" >Qiymet</option>
+                        @foreach (var item in Model.Prices)
+                        {
+                            <option value="@item.Id">@item.FromPrice - @item.ToPrice</option>
+                        }
+                    </select>
+                    <select asp-for="CityId">
+                        <option value="@null">Seher</option>
+                        @foreach (var item in Model.Cities)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                    </select>
+                    <select asp-for="RoomCount" >
+                        <option>Otaq Sayi</option>
+                        @for (int i = 1; i <= 10; i++)
+                            {
+                                <option value="@i">@i otaq</option>
+                            }
+                    </select>
+                </div>
+            </div>
+            <div id="section1Right">
+                <div id="etrafliAxtaris">
+                    <span style="color: #B1924C;">+</span>
+                    <span style="color: #B1924C;">Etrafli Axtaris</span>
+                </div>
+                <button type="submit" style="background-color: #B1924C;height: 40px; cursor: pointer;">Axtar</button>
+                    </form>
+            </div>
+        </div>
+
+        <script>
+            const rentBtn = document.getElementById("alisBtn");
+            const saleBtn=document.getElementById("satisBtn");
+            const rentForm = document.getElementById("section1Up");
+            const saleBForm=document.getElementById("section1UpSale");
+            rentBtn.addEventListener("click",()=>{
+                rentForm.style.display='initial';
+                saleBForm.style.display='none';
+                rentBtn.style.backgroundColor='black';
+                rentBtn.style.color = 'white';
+                saleBtn.style.backgroundColor = 'white';
+                saleBtn.style.color = 'black';
+            })
+            saleBtn.addEventListener("click",()=>{
+                rentForm.style.display = 'none';
+                saleBForm.style.display='initial';
+                saleBtn.style.backgroundColor = 'black';
+                saleBtn.style.color = 'white';
+                rentBtn.style.backgroundColor = 'white';
+                rentBtn.style.color = 'black';
+            })
+</script>
+
+
+        <div id="section1Down">
+            <div id="section1DownU">
+                <p style="font-size: 22px;">En Yeniler</p>
+            </div>
+
+                <a asp-controller="house" asp-action="getallhouses" style="margin:auto;width:200px;padding:6px 9px;background-color:black;color:white;border-radius:7px;text-decoration:none;display:flex;justify-content:center;align-items:center;">Butun Elanlar</a>
+            <div id="section1DownD" style="flex-wrap:wrap;" >
+               @foreach (var item in Model.houses)
+                {
+                    <a asp-controller="house" asp-action="detail" asp-route-id="@item.Id" style="text-decoration: none;color: black;">
+                        <div class="cardPremium" style="margin:10px;">
+                            <div class="cardImageContainer">
+                                <img src="~/Assets/Images/@item.houseImages.FirstOrDefault(a=>a.IsMain).Image" >
+                            </div>
+                            <div class="homePrice">
+                                @if(item.ForRent==true){
+
+                                <p><span>M</span> @item.Price /Ay</p>
+                                }
+                            @if (item.ForSale == true)
+                            {
+                                <p><span>M</span>@item.Price /Satiliq</p>
+                            }
+                            <a asp-controller="house" asp-action="addtofavorite" asp-route-houseId="@item.Id" style="text-decoration:none;color:black;" >
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                 @foreach (var favorite in ViewBag.UsersFavorites)
+                                 {
+                                     if (favorite.HouseId == item.Id)
+                                     {
+                                            counter++;
+                                        }
+                                 }
+                                    @if (counter == 0)
+                                    {
+                                        Addded = false;
+                                    }
+                                    else
+                                    {
+                                        Addded = true;
+                                    }
+                                    @if(Addded==true)
+                                 {
+
+                                        <i class="fa-regular fa-heart" style="color:red;"></i>
+                                    }else
+                                    {
+                                        <i class="fa-regular fa-heart" ></i>
+                                    }
+                                }
+                                else
+                                {
+                                    <i class="fa-regular fa-heart" ></i>
+                                }
+                            </a>
+                            </div>
+                            <div class="roomCount" style="display:flex;justify-content:space-between;">
+                                <p>@item.RoomCount otaqli -@item.Size m2</p>
+                                <div style="padding-right:10px;">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span>@item.ViewCount</span>
+                                </div>
+                            </div>
+                            <div class="areaAndDate">
+                            @if (item.Distinct != null)
+                            {
+                            <p>@item.Distinct.Name R</p>
+                            }
+                            @if (item.City != null)
+                            {
+                            <p>@item.City.Name , @item.CreatedDate.Day -@item.CreatedDate.Month -@item.CreatedDate.Year</p>
+                            }
+                                
+                            </div>
+                        </div>
+                    </a>
+
+                }   
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--secction2-->
+
+
+<!--section 3-->
+
+<!--section 4-->
+<section id="section4" style="margin-top: 30px;background-color: beige;padding: 20px;">
+    <div id="section4Container">
+
+        <div id="carouselExampleCaptions" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                
+               @foreach (var item in Model.Advertises)
+                {
+                                    <div class="carousel-item active">
+                    <img style="width: 200px;height:400px;" src="~/Assets/Images/@item.Image" class="d-block w-100" alt="..." >
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 style="color:greenyellow">@item.Descripption</h5>
+                        <span style="color:red;">@item.CreatedDate.Day:@item.CreatedDate.Month:@item.CreatedDate.Year</span>
+                    </div>
+                </div>
+
+                }               
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </div>
+</section>
+
+
+                <script>
+                    let num=0;
+
+    const alertmessage = document.getElementById("alert-message")
+    if (alertmessage != undefined) {
+        const message = alertmessage.innerHTML;
+
+        if (num==0&&message != "") {
+              
+            Swal.fire({
+            
+                title: `${message}`,
+                width: 600,
+                padding: '3em',
+                color: '#716add',
+                background: '#fff url(/images/trees.png)',
+                backdrop: `
+                rgba(0,0,123,0.4)
+                url("/images/nyan-cat.gif")
+                left top
+                no-repeat
+              `
+            })
+            setTimeout(()=>{
+                location.reload(true)
+            },2000)
+        }
+
+
+    }
+
+   
+                </script>
+

@@ -1,0 +1,112 @@
+﻿<link rel="stylesheet" href="~/Assets/CSS/Elan.css">
+<script src="https://kit.fontawesome.com/ea89281bc3.js" crossorigin="anonymous"></script>
+  <!--section 1-->
+  @model House
+  <h1 style="text-align:center;color:orange;">Ev Haqqinda umumi melumatlar</h1>
+<section id="section1" >
+    <div id="section1Container" style="margin-bottom:40px;">
+        <form method="post" asp-controller="elan" asp-action="sharehouse" style="display: flex; column-gap: 50px;margin: auto;" enctype="multipart/form-data">
+            <div id="section1ContainerLeft" style="padding-top:46px;">
+
+                <input asp-for="Description" placeholder="Emlak barede etrafli melumat"></input>
+                <input asp-for="FloorCount" placeholder="mertebe" />
+                <input asp-for="Size" placeholder="sahe (SOT)" />
+                <input asp-for="Adress" placeholder="unvan" type="text" />
+       
+                <div id="photos">
+                    <h2>Sekiller</h2>
+                    <div style="display: flex; flex-direction: column;">
+                        <input multiple asp-for="files"  />
+                        <span>Eyni anda bir nece sekil yukleye bilersiniz!</span>
+                    </div>
+                </div>
+                <div>
+                    <h2>Qiymet</h2>
+                    <input asp-for="Price" type="number" placeholder="qiymet.." />
+                </div>
+            </div>
+            <div id="section11ContainerRight">
+                <input asp-for="PhoneNumber" placeholder="telefon" type="tel" />
+                <input asp-for="FullName" placeholder="elanin adi" type="text" />
+                <input asp-for="RoomCount" type="number" placeholder="otaq sayi" />
+                <div>
+                    <h2>Unvan</h2>
+                    <div>
+                    <span>Olke</span>
+                    <select asp-for="CountryId" >
+                            <option value="@null" style="width:200px;text-align:center;">Olke</option>
+                            @foreach (var item in ViewBag.Countries)
+                            {
+                                <option value="@item.Id" style="width:200px;text-align:center;">@item.Name</option>
+                            }
+                    </select>
+                    </div>
+                    <div>
+                        <span>Rayon</span>
+                    <select asp-for="DistinctId">
+                            <option value="@null" style="width:200px;text-align:center;">Rayon</option>
+                            @foreach (var item in ViewBag.Distincts)
+                            {
+                                <option value="@item.Id" style="width:200px;text-align:center;">@item.Name</option>
+                            }
+                    </select>
+                    </div>
+                    <div>
+                        <span>Tip</span>
+                        <select asp-for="TypeeId">
+                            <option value="@null" style="width:200px;text-align:center;">Tip</option>
+                            @foreach (var item in ViewBag.Types)
+                            {
+                                <option value="@item.Id" style="width:200px;text-align:center;">@item.Name</option>
+                            }
+
+                        </select>
+                    </div>
+                     <div>
+                    <span >Seher</span>
+                <select asp-for="CityId">
+                            <option value="@null" style="width:200px;text-align:center;">Seher</option>
+                            @foreach (var item in ViewBag.Cities)
+                            {
+                                <option value="@item.Id" style="width:200px;text-align:center;">@item.Name</option>
+                                
+                            }
+                </select>
+                    </div>
+                    <div>
+                        <span>Metro</span>
+                     <select asp-for="MetroId" >
+                         <option value="@null" style="width:200px;text-align:center;">Metro</option>
+                       @foreach (var item in ViewBag.Metros)
+                           {
+                                <option value="@item.Id" style="width:200px;text-align:center;">@item.Name</option>
+                            }
+                    </select>
+                    </div>
+                             <div id="checkBoxInputs">
+                    <div class="CHBI" style="display:flex;flex-direction:row;align-items:center;column-gap:6px;">
+                        <input asp-for="ForRent"  id="temirli" style="width: 20px;" />
+                        <label for="temirli">Kira</label>
+                    </div>
+                    <div class="CHBI" style="display:flex;flex-direction:row;align-items:center;column-gap:6px;">
+                        <input asp-for="ForSale" id="kreditle" style="width: 20px;">
+                        <span for="kreditle">Satis</span>
+                    </div>
+
+                        <div class="CHBI" style="display:flex;flex-direction:row;align-items:center;column-gap:6px;">
+                            <input asp-for="IsCommentsOpen" id="kreditle" style="width: 20px;">
+                            <span for="kreditle">Kommentleri Bagla</span>
+                        </div>
+                </div>
+               
+                
+                </div>
+                <button type="submit"
+                        style="width: 180px; height: 40px; cursor: pointer;background-color: #483B1F;color: white;">
+                    Elan
+                    Ver
+                </button>
+            </div>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,39 @@
+﻿<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+@model AgentedHouse
+
+<form method="post" style="margin:10px;" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="FullName.." asp-for="@Model.FullName">
+        <span class="alert alert-text" asp-validation-for="@Model.FullName" style="color:red; font-size:16px;"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Price</label>
+        <input  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Price.." asp-for="@Model.Price">
+        <span class="alert alert-text" asp-validation-for="@Model.Price" style="color:red; font-size:16px;"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Adress</label>
+        <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Adress.." asp-for="@Model.Adrees">
+        <span class="alert alert-text" asp-validation-for="@Model.Adrees" style="color:red; font-size:16px;"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Image</label>
+        <input multiple type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="image.." asp-for="@Model.files">
+        <span class="alert alert-text" asp-validation-for="@Model.files" style="color:red; font-size:16px;"></span>
+    </div>
+
+    <select asp-for="@Model.AgentId">
+        @foreach (var item in ViewBag.Agents)
+        {
+            <option value="@item.Id">@item.FullName</option>
+        }
+    </select>
+
+    <button type="submit">Submit</button>
+</form>

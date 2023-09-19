@@ -1,0 +1,31 @@
+﻿@model House
+
+<style>
+	input{
+		width:400px;
+		height:40px;
+		border-radius:6px;
+		padding-left:10px;
+	}
+</style>
+
+<!--section 1-->
+<section accesskey="id=section1" style="margin:100px 0px;">
+	<div id="section1Container">
+		<div>
+			<h2 style="color:red;">Elan Sahibinin melumatlari</h2>
+			<img src="~/Assets/Images/@Model.AppUser.Image"  style="width:300px;"/>
+			<h4>Ad : @Model.AppUser.Name</h4>
+			<h4>Soyad :@Model.AppUser.Surname </h4>
+		</div>
+		<form method="post" asp-controller="house" asp-action="deletebyadmin" asp-route-id="@Model.Id" >
+			<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;row-gap:10px;" >
+			<h2>Silmeyin sebebi</h2>
+			<p style="color:red;">bu sebebler istifadeciye bildirilecek</p>
+		   <input type="text" placeholder="silmenin sebebini qeyd edin.." name="description" />
+		   <button type="submit" style="padding:5px 8px;background-color:black;color:white;">Tesdiq Et</button>
+			</div>
+		</form>
+
+	</div>
+</section>

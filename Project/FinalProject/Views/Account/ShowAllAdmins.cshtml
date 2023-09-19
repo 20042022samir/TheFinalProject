@@ -1,0 +1,23 @@
+﻿@model IEnumerable<AppUser>
+
+    <div style="display:flex;justify-content:center;align-items:center; gap:10px;flex-wrap:wrap;">
+
+@foreach(var admin in Model)
+{
+    <div class="card" style="width: 18rem;">
+        @if (admin.Image != "")
+        {
+        <img class="card-img-top" src="~/Assets/Images/@admin.Image" alt="Card image cap" style="width:100%;">
+        }
+      <div class="card-body">
+        <p class="card-title"><span style="color:red;">Ad:</span>@admin.Name</p>
+            <p><span style="color:red;">Soyad:</span>@admin.Surname</p>
+            <p><span style="color:red;">Email:</span>@admin.Email</p>
+            <p><span style="color:red;">Istifadeci Adi:</span>@admin.UserName</p>
+            <a asp-controller="account" asp-action="deleteadmin" asp-route-adminName="@admin.UserName" >
+                <i class="fa-solid fa-trash"></i>
+            </a>
+      </div>
+    </div>
+}
+    </div>

@@ -1,0 +1,134 @@
+﻿<script src="https://kit.fontawesome.com/ea89281bc3.js" crossorigin="anonymous"></script>
+@model LoginViewModel 
+
+@if (!string.IsNullOrWhiteSpace((string)TempData["loggin"]))
+{
+    <div style="display:none" id="alert-message">@TempData["loggin"]</div>
+}
+@{
+    int num = 0;
+}
+@if (num == 0 && !string.IsNullOrWhiteSpace((string)TempData["Registered"]))
+{
+    <div style="display:none" id="alert-message">@TempData["Registered"]</div>
+}
+
+<section class="h-100 h-custom" style="background-color: #8fc4b7;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-8 col-xl-6">
+                <div class="card rounded-3">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+                         class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+                         alt="Sample photo">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Daxil Olun</h3>
+
+                        <form class="px-md-2" asp-controller="account" asp-action="login" method="post">
+                            @if(ViewBag.Emphty==true){
+                                <div style="color:red;">Zehmet olmasa melumatlari daxil edin!</div>
+                            }
+                            <div asp-validation-summary="ModelOnly" style="color:red;"></div>
+
+                            <div class="form-outline mb-4">
+                                <input type="text" id="form3Example1q" class="form-control" asp-for="UserName"  />
+                                <label class="form-label" for="form3Example1q">Istifadeci Adi</label>
+                            </div>
+
+
+
+                            <div class="form-outline mb-4">
+                                  <div style="display:flex;flex-direction:row; column-gap:5px;">
+                                    <input id="form3Example1q" class="passwordInput" asp-for="Password" />
+                                    <button id="showPasswordBtn" style="border:none;background-color:transparent;"><i class="fa-solid fa-eye"></i></button>
+
+                                  </div>
+                                <label class="form-label" for="form3Example1q">Parol</label>
+                            </div>
+    
+
+                            <div class="form-outline mb-4">
+                                <input  id="rememberMe" asp-for="IsRememberMe"  />
+                                <label class="form-label" for="rememberMe">Meni Xatirla</label>
+
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <span style="color:brown">Hesabiniz yoxdur?</span>
+                                <a asp-controller="account" asp-action="register" style="text-decoration:none;color:black;">Qeydiyyatdan kecin</a>
+                                </div>
+                            
+                             <div>
+                                 <span style="color:brown;">Parolu Unutmusam :(</span>
+                                <a asp-controller="account" asp-action="forgetpassword" style="text-decoration:none;color:black;">Parolu Deyis</a>
+                             </div>
+                            <button type="submit" class="btn btn-success btn-lg mb-1">Daxil ol</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .passwordInput {
+        width: 100%;
+        height: 37.6px;
+        padding-left: 10px;
+        border-radius: 10px;
+        border-color: 767676;
+    }
+</style>
+
+<script>
+    const passwordInput = document.getElementsByClassName("passwordInput")[0];
+    const showPasswordButton = document.getElementById("showPasswordBtn");
+    showPasswordButton.addEventListener("click",(event)=>{
+        event.preventDefault();
+        if(passwordInput.type=='password'){
+            passwordInput.type='text'
+        }else{
+            passwordInput.type='password'
+        }
+    })
+</script>
+
+
+<script>
+    let num = 0;
+
+    const alertmessage = document.getElementById("alert-message")
+    if (alertmessage != undefined) {
+        const message = alertmessage.innerHTML;
+
+        if (num == 0 && message != "") {
+
+            Swal.fire({
+
+                title: `${message}`,
+                width: 600,
+                padding: '3em',
+                color: '#716add',
+                background: '#fff url(/images/trees.png)',
+                backdrop: `
+                    rgba(0,0,123,0.4)
+                    url("/images/nyan-cat.gif")
+                    left top
+                    no-repeat
+                  `
+            })
+            setTimeout(() => {
+                location.reload(true)
+            }, 2000)
+        }
+
+
+    }
+
+
+</script>
+

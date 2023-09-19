@@ -1,0 +1,145 @@
+﻿@model DetailUserViewModel
+<script src="https://kit.fontawesome.com/ea89281bc3.js" crossorigin="anonymous"></script>
+
+@if (!string.IsNullOrWhiteSpace((string)TempData["Deleted"]))
+{
+	<div style="display:none" id="alert-message">@TempData["Deleted"]</div>
+}
+
+<div>
+	@if(Model.user.Image!="")
+	{
+		<div style="padding:20px; margin:80px auto;;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+			<a asp-controller="account" asp-action="deleteprofilphoto" asp-route-username="@Model.user.UserName" style="font-size:20px;text-decoration:none;">Profil seklini silin:<i class="fa-solid fa-trash"></i></a>
+		<img src="~/Assets/Images/@Model.user.Image" style="width:300px;" />
+		<h3><span style="color:red;">UserName</span>:@Model.user.UserName</h3>
+			<h3><span style="color:red;">Name:</span>@Model.user.Name</h3>
+			<h3><span style="color:red;">Surnname:</span>@Model.user.Surname</h3>
+			<h3><span style="color:red;">Email:</span>@Model.user.Email</h3>
+								<a asp-controller="account" asp-action="update" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Guncelle</a>
+
+			@if (User.IsInRole("Admin"))
+			{
+				<h3><span style="color:red;">Role:</span>Admin</h3>
+				<a asp-controller="home" asp-action="showmuraciets" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Muracietleri Goster</a>
+
+			}
+			else if(User.IsInRole("SuperAdmin"))
+			{
+				<h3><span style="color:red;">Role:</span>SuperAdmin</h3>
+				<div style="display:flex;column-gap:10px;">
+						<a asp-controller="account" asp-action="createadmin" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Admin Yarat</a>
+					<a asp-controller="account" asp-action="showalladmins" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Butun Adminler</a>
+					<a asp-controller="home" asp-action="showmuraciets" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Muracietleri Goster</a>
+
+							</div>
+			}
+		</div>
+	}
+	else
+	{
+		<div style="padding:20px; margin:80px auto;;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+			<img src="~/Assets/Images/UserImage.jpg" style="width:300px;" />
+		<h3><span style="color:red;">UserName</span>:@Model.user.UserName</h3>
+			<h3><span style="color:red;">Name:</span>@Model.user.Name</h3>
+			<h3><span style="color:red;">Surnname:</span>@Model.user.Surname</h3>
+			<h3><span style="color:red;">Email:</span>@Model.user.Email</h3>
+								<a asp-controller="account" asp-action="update" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Guncelle</a>
+
+			@if (User.IsInRole("Admin"))
+			{
+				<h3><span style="color:red;">Role:</span>Admin</h3>
+				<a asp-controller="home" asp-action="showmuraciets" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Muracietleri Goster</a>
+
+			}
+			else if (User.IsInRole("SuperAdmin"))
+			{
+						<h3><span style="color:red;">Role:</span>SuperAdmin</h3>
+						<div style="display:flex;column-gap:10px;">
+						<a asp-controller="account" asp-action="createadmin" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Admin Yarat</a>
+					<a asp-controller="account" asp-action="showalladmins" style="text-decoration:none;color:white;padding:5px 8px;background-color:black;">Butun Adminler</a>
+					<a asp-controller="home" asp-action="showmuraciets"  style="text-decoration:none;color:white;padding:5px 8px;background-color:black;"  >Muracietleri Goster</a>
+
+							</div>
+
+			}
+		</div>
+	}
+</div>
+
+@if (Model.houses.Count() != 0)
+{
+	<h2 style="text-align:center;color:red;">Sizin Evleriniz</h2>
+}
+
+<div style="display:flex;flex-wrap:wrap; gap:10px;padding:40px 0px;justify-content:center;">
+	@foreach (var item in Model.houses)
+	{
+		<a asp-controller="house" asp-action="detail" asp-route-id="@item.Id" style="text-decoration:none;color:black;">
+
+		<div style="border:2px solid black; width:280px; display:flex;align-items:center;flex-direction:column;">
+			<div style=" width:280px; display:flex;align-items:center;flex-direction:column;">
+				<img src="~/Assets/Images/@item.houseImages.FirstOrDefault(x=>x.IsMain).Image" style="width	:100%;height:200px;"/>
+			<p style="padding-left:10px;"><span style="color:red;">Name :</span>@item.FullName</p>
+					<p style="padding-left:10px;"><span style="color:red;">Priice:</span>@item.Price</p>
+				@if (item.City != null)
+				{
+						<p style="padding-left:10px;"><span style="color:red;">City Name:</span>@item.City.Name</p>
+				}
+				else
+				{
+						<p style="padding-left:10px;"><span style="color:red;">City Name:</span>Bosdur</p>
+				}
+
+				@if (item.Country != null)
+				{
+					
+					<p style="padding-left:10px;"><span style="color:red;">Country :</span>@item.Country.Name</p>
+				}
+				else
+				{
+						<p style="padding-left:10px;"><span style="color:red;">Country :</span>Bosdur </p>
+
+				}
+				<div style="display:flexcolumn-gab:10px;">
+
+				<a asp-controller="house" asp-action="updatehouse"  asp-route-id="@item.Id"><i class="fa-solid fa-pen-nib"></i></a><span>Guncelle</span>
+				</div>
+				<div style="display:flexcolumn-gab:10px;">
+
+			<a asp-controller="elan" asp-action="delete" asp-route-id="@item.Id" style="text-decoration:none;color:black;"><i class="fa-solid fa-trash"></i></a><span>Sil</span>
+				</div>
+			</div>
+		</div>
+		</a>
+	}
+</div>
+
+<script>
+
+	const alertmessage = document.getElementById("alert-message")
+	if (alertmessage != undefined) {
+		const message = alertmessage.innerHTML;
+
+		if (message != "") {
+			Swal.fire({
+				title: `${message}`,
+				width: 600,
+				padding: '3em',
+				color: '#716add',
+				background: '#fff url(/images/trees.png)',
+				backdrop: `
+					rgba(0,0,123,0.4)
+					url("/images/nyan-cat.gif")
+					left top
+					no-repeat
+				  `
+			})
+			setTimeout(()=>{
+                location.reload(true)
+            },1000)
+		}
+	}
+
+
+</script>

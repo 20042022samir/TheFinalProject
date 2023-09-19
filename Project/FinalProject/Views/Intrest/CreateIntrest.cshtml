@@ -1,0 +1,44 @@
+﻿
+@model IntrestMessage
+
+@if (ViewBag.User.IntrestMessages!=null)
+{
+	<div>Sizin maraqlariniz var</div>
+}
+else
+{
+	
+<section id="section1">
+	<div id="section1Container" style="margin:100px 0px;" >
+<h2 style="color:red;text-align:center;width:500px;margin:auto;">Salam Deyerli <span style="color:black;">@User.Identity.Name</span>  burada siz maraq dairenizde olan evi secib her defe ele bir ev paylasilanda mail ala bilersiniz !</h2>
+<form method="post" style="width:400px;margin:auto;" >
+	<select asp-for="CityId" style="padding:4px 7px;">
+		<option value="@null" >Seher</option>
+		@foreach (var item in ViewBag.Cities)
+		{
+			<option value="@item.Id">@item.Name</option>
+		}
+	</select>
+	<select asp-for="CountryId" style="padding:4px 7px;">
+		<option value="@null"  >Olke</option>
+		@foreach (var item in ViewBag.Countries)
+		{
+			<option value="@item.Id">@item.Name</option>
+		}
+</select>
+	<select asp-for="TypeId"style="padding:4px 7px;">
+		<option value="@null" >Tip</option>
+		@foreach (var item in ViewBag.Typees)
+		{
+			<option value="@item.Id">@item.Name</option>
+		}
+</select>
+
+
+	<button type="submit">Tesdiqle</button>
+</form>
+	</div>
+</section>
+}
+
+

@@ -1,0 +1,317 @@
+﻿@{
+    FinalProject.Core.Entities.AppUser appUser = default;
+    IEnumerable<Country> countries = default;
+}
+@inject FinalProject.Service.service1 service
+@{
+    IEnumerable<Country> countries1 = await service.Getall();
+    IEnumerable<City> cities = await service.GetAllCities();
+    IEnumerable<Typee> Typees = await service.GetAllHouseTypes();
+    PageAbout about = await service.GetPageInfo();
+}
+@if (User.Identity.IsAuthenticated)
+{
+    @inject Microsoft.AspNetCore.Identity.UserManager<FinalProject.Core.Entities.AppUser> userManager;
+    @inject FinalProject.Contexts.FinalProjectDatbase _context;
+     appUser = await userManager.FindByNameAsync(User.Identity.Name);
+    countries =  _context.Countries.Where(x => !x.IsDeleted).ToList();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvLand🏠</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/ea89281bc3.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="~/Assets/CSS/HomePage.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" href="~/Assets/Images/HomeLand.png" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+</head>
+
+<style>
+ 
+/* Your other CSS styles */
+
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-animation {
+  /* Define your animation styles using keyframes */
+  animation: spin 2s linear infinite; /* Example animation: spin */
+}
+
+
+    #serachUserForm {
+        position: fixed;
+        z-index: 99;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        padding: 50px 80px;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 20px;
+        top: -250px;
+        transition: 0.7s;
+        border: 3px solid red;
+    }
+
+        #serachUserForm input {
+            width: 400px;
+            height: 40px;
+            border: 3px solid black;
+            padding-left: 10px;
+        }
+  
+  @@media screen and (max-width:600px){
+        #searchHolder {
+            flex-direction:column;
+            width:100%;
+        }
+
+        #searchHolder input{
+            width:100px;
+        }
+  }
+</style>
+
+<body id="body">
+  <!--Header-->
+  <header class="header" id="header" style="position: sticky;top: 0;z-index: 99; transition: 0.6s; ">
+    <nav style="height:auto; align-items:center;">
+        <div>
+                
+                @if (User.Identity.IsAuthenticated )
+                {
+                    @if (appUser.Image != "")
+                    {
+                        <a asp-controller="account" asp-action="detailuser" style="text-decoration:none;color:black;">
+
+                        <div style="display:flex;flex-direction:row; column-gap:10px; align-items:center;" >
+                            <img src="~/Assets/Images/@appUser.Image" style="width:70px; border-radius:10px;"/>
+                            <div style="display:flex;flex-direction:column;">
+                            <div>Etrafli Melumat</div>
+                            <a asp-controller="account" asp-action="logout" style="text-decoration:none;color:blue;" >Cixis et</a>
+                                    @if(User.IsInRole("Admin") || User.IsInRole("SuperAdmin")){
+                                    <a style="text-decoration:none;color:blue;" href="@Url.Action("Index", "Admin", new { area = "Home" })">Admin Panel</a>
+                                    }
+                                </div>
+                        </div>
+                        </a>
+
+                    }
+                    else 
+                    {
+                        <a asp-controller="account" asp-action="detailuser" style="text-decoration:none;color:black;">
+
+                        <div style="display:flex;flex-direction:row; column-gap:10px; align-items:center;">
+                            <img src="~/Assets/Images/UserImage.jpg" style="width:70px; border-radius:10px;" />
+                            <div style="display:flex;flex-direction:column;">
+                                <div>@User.Identity.Name</div>
+                                <a asp-controller="account" asp-action="logout" style="text-decoration:none;color:blue;">Cixis et</a>
+                                @if(User.IsInRole("Admin") || User.IsInRole("SuperAdmin")){
+                                    <a style="text-decoration:none;color:blue;" href="@Url.Action("Index", "Admin", new { area = "Home" })">Admin Panel</a>
+                                    }
+                            </div>
+                        </div>
+                        </a>
+
+
+                    }
+                }
+        </div>
+     
+      <div id="navbar">
+          <div>
+
+                <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Olke
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    @foreach (var item in countries1)
+                    {
+                     <li  ><a class=" dropdown-item" asp-controller="house" asp-action="countrydetail" asp-route-id="@item.Id" style="color:white;">@item.Name</a></li>
+                    }
+
+                </ul>
+          </div>
+          <div>
+                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Alis Tipi
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" asp-controller="house" asp-action="getrentedhouses" style="color:white;">Kira</a></li>
+                        <li><a class="dropdown-item" asp-controller="house" asp-action="getsaledhouses" style="color:white;" >Alis</a></li>
+                    </ul>
+          </div>
+          <div>
+                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Seherler
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        @foreach (var item in cities)
+                        {
+                            <li><a class="dropdown-item" asp-controller="house" asp-action="citydetail" asp-route-id="@item.Id" style="color:white;">@item.Name</a></li>
+                        }
+                    </ul>
+                </div>
+          <div>
+                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Menzil Tipleri
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        @foreach (var item in Typees)
+                        {
+                            <li><a class="dropdown-item" asp-controller="house" asp-action="typeedetail" asp-route-id="@item.Id" style="color:white;">@item.Name</a></li>
+                        }
+                    </ul>
+                </div>
+
+                <a class="tagNav" asp-controller="agentlik" asp-action="index">Agentlik</a>
+                <a class="tagNav" asp-controller="house" asp-action="showfavorites" style="text-decoration:none;color:black;" >Secilmisler</a>
+                <a class="tagNav" asp-controller="house" asp-action="showmessages" style="text-decoration:none;color:black;" >Mesajlar</a>
+      </div>
+      <div id="headerBtns">
+        <button style="background-color: white;" id="filterButton">Istifadeci Axtar</button>
+        <a asp-controller="elan" asp-action="sharehouse" >Elan Ver</a>
+        <a style="background-color: white;" asp-controller="account" asp-action="register" >Daxil Ol</a>
+        <button id="hamBurgerBtns" style="padding: 10px; background-color: transparent;border:none;">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="loading-container" id="loadingContainer">
+    <div class="loading-animation">
+      <!-- Animation elements or content here -->
+    </div>
+  </div>
+
+  <!--SearchUserForm-->
+    <div id="serachUserForm">
+        <button id="searchUserCloseBtn" style="border: none; background-color: transparent;">
+            <i class="fa-solid fa-xmark" style="font-weight: 22px;color: red;"></i>
+        </button>
+        <h3 style="color:black;">Axtarmaq istediyiniz istifadecini qeyd edin</h3>
+        <form id="formSearchUser" method="post" asp-controller="account" asp-action="serachuser">
+            <div id="searchHolder" style="display: flex;column-gap: 10px;align-items: center;justify-content:center;">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="username" />
+                <button type="submit"  style="background-color: transparent;border: none;">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+    <!--phoneModal-->
+    <div id="phoneModal">
+        <button id="phoneModalCloseBtn" style="border: none; background-color: transparent; color: red; font-size: 20px;">X</button>
+        <a asp-controller="home" asp-action="aboutpage">Haqqimizda</a>
+        <a asp-controller="elan" asp-action="sharehouse">Elan Ver</a>
+        <a asp-controller="agentlik" asp-action="index">Agentlik</a>
+        <a asp-controller="account" asp-action="register">Daxil Ol</a>
+        <a asp-controller="blog" asp-action="index">Blog</a>
+    </div>
+
+            @RenderBody()
+
+  <!--footer-->
+  <footer id="footer" style="background-color: black; padding: 10px;">
+    <div id="footerContainer">
+      <div id="footerLeft">
+        <div id="seocialMedia">
+                    <a href="@about.FaceboookLink" style="text-decoration:none;color:black;" target="_blank">
+          <i class="fa-brands fa-facebook" style="color: white;font-size: 30px;"></i>
+            </a>
+                    <a href="@about.InstagramLink" style="text-decoration:none;color:black;" target="_blank">
+          <i class="fa-brands fa-instagram" style="color: white;font-size: 30px;"></i>
+            </a>
+            <a href="@about.LinkedinLink"  style="text-decoration:none;color:black;" target="_blank" >
+          <i class="fa-brands fa-linkedin" style="color: white;font-size: 30px;"></i>
+            </a>
+        </div>
+        <p>0509671666</p>
+        <p>@about.Email</p>
+        <p>@about.Contry</p>
+      </div>
+      <div id="footerRight">
+        <div class="footerRightPart">
+          <a asp-controller="home" asp-action="index">Ana sehife</a>
+          <a asp-controller="Home" asp-action="aboutpage" >Haqqimizda</a>
+          <a asp-controller="agentlik" asp-action="index">Agentlik</a>
+          <a asp-controller="blog" asp-action="index">Blog</a>
+          <a asp-controller="home" asp-action="muraciet">Muraciet</a>
+                    <a asp-controller="intrest" asp-action="createintrest">Maraq Dairesi</a>
+        </div>
+
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+
+</html>
+<script src="~/Assets/JS/FinalProje.js"></script>
+<script>
+  const navbar = document.getElementById("header");
+  const navbarTags=document.getElementsByClassName("tagNav");
+const scrollThreshold = 110; // Adjust this value as needed
+
+window.addEventListener("scroll", function() {
+  const scrolled = window.scrollY;
+
+  if (scrolled > scrollThreshold) {
+    navbar.style.backgroundColor = "#fdf9e0"; 
+    // Background color when scrolled
+  } else {
+    navbar.style.backgroundColor = "white"; 
+    // Initial background color
+  }
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const loadingContainer = document.getElementById("loadingContainer");
+  loadingContainer.style.display = "none"; // Hide the loading animation
+});
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+
+<script>
+    const serachUserFormOpenBtn = document.getElementById("filterButton");
+    const searchUserCloseBtn = document.getElementById("searchUserCloseBtn");
+    const userForm = document.getElementById("serachUserForm");
+    serachUserFormOpenBtn.addEventListener("click", () => {
+        userForm.style.top = '0px';
+    })
+    searchUserCloseBtn.addEventListener("click", () => {
+        userForm.style.top = '-250px';
+    })
+</script>

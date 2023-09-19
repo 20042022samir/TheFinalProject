@@ -1,0 +1,48 @@
+﻿<style>
+	#section1Container{
+		width:1180px;
+	}
+
+	@@media screen and (max-width:1190px) {
+		#section1Container {
+			width:890px;
+		}
+	}
+	@@media screen and (max-width:890px){
+		#section1Container{
+			width:430px;
+		}
+	}
+</style>
+
+@model IEnumerable<House>
+
+	@if(Model.Count()==0){
+		<div style="text-align:center;padding:200px 0px; color:red;font-size:22px;" >Isteyinize uygun ev tapilmadi :)</div>
+	}else{
+		<section>
+			<div id="section1Container" style="padding:100px 0px;display:flex;flex-wrap:wrap;flex-direction:row;"  >
+		@foreach (var item in Model)
+	{
+		<div class="card" style="width: 18rem;margin:5px;">
+			<img src="~/Assets/Images/@item.houseImages.FirstOrDefault(a=>a.IsMain).Image" style="width:100%;height:200px;"/>  <div class="card-body">
+    <h5 class="card-title">@item.FullName</h5>
+    <p class="card-text">@item.Description</p>
+						<p><span style="color:red;">@item.AppUser.Name</span> adli istifadeci terefinden</p>
+	<span style="color:red;">@item.CreatedDate.Day - @item.CreatedDate.Month - @item.CreatedDate.Year</span>
+	<div style="display:flex;column-gap:10px;" >
+		<div>
+				 			<span><i class="fa-solid fa-eye"></i></span><span>@item.ViewCount</span>
+		</div>
+							<div>
+								<span><i class="fa-solid fa-comment"></i></span><span>@item.Comments.Count()</span>
+							</div>
+	</div>
+    <a asp-controller="house" asp-action="detail" asp-route-id="@item.Id" class="btn btn-primary">Etrafli</a>
+  </div>
+</div>
+	}
+			</div>
+		</section>
+	}
+

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Muraciet>
+
+@{
+	int amount = 0;
+}
+<style>
+	.card{
+		width:600px;
+	}
+</style>
+<div>
+	<section style="margin:100px 0px;">
+		<h1 style="text-align:center;color:red;">En son Muracietler</h1>
+		<div style="display:flex;flex-direction:row;column-gap:20px;justify-content:center;flex-wrap:wrap;">
+
+	@foreach (var item in Model)
+	{
+				amount++;
+
+		if (item.AppUser != null)
+		{
+			<div class="card" style="background-color:lightslategrey;margin:10px;">
+				<div class="card-header" style="color:white;">
+							Muraciet Nomre <span style="color:red;"> @amount</span>
+				</div>
+				<div class="card-body">
+					<blockquote class="blockquote mb-0">
+						@if (item.AppUser.Image != "")
+						{
+							<img src="~/Assets/Images/@item.AppUser.Image" style="width:100px;"/>
+						}
+						else
+						{
+							<img src="~/Assets/Images/UserImage.jpg"  style="width:100px;"/>
+						}
+								<a asp-controller="account" asp-action="getsearcheduserhouses" asp-route-username="@item.AppUser.UserName" style="color:white;text-decoration:none;">Istifadeci:@item.AppUser.Name</a>
+						<p style="color:white;">@item.Message</p>
+								<footer class="blockquote-footer"> <cite title="Source Title" style="color:white;">@item.CreatedDate.Day:@item.CreatedDate.Month:@item.CreatedDate.Year </cite></footer>
+						<a asp-controller="home" asp-action="deletemuraciet" asp-route-id="@item.Id"  style="color:white;text-decoration:none;">
+									<i class="fa-solid fa-trash"></i>
+						</a>
+								<a asp-controller="home" asp-action="responsemuraciet" asp-route-id="@item.Id" style="text-decoration:none;color:white;" >
+									<i class="fa-solid fa-reply"></i>
+								</a>
+								@if (item.IsAnswered)
+								{
+									<span style="color:white;">Cavablanib <i class="fa-solid fa-check"></i></span>
+								}
+							</blockquote>
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="card" style="background-color:lightslategrey;">
+  <div class="card-header" style="color:white;">
+    Muraciet nomre <span style="color:red;">@amount</span>
+  </div>
+  <div class="card-body">
+    <blockquote class="blockquote mb-0">
+						<img src="~/Assets/Images/UserImage.jpg" style="width:100px;" />
+	 <p style="color:white;" >Ad :@item.Name</p>
+	 <p style="color:white;">Soyad :@item.Surname</p>
+      <p style="color:white;">@item.Message.</p>
+								<p style="color:white;">Email:@item.Email  <span><i class="fa-solid fa-envelope"></i><a href="mailto:@item.Email" style="color:red;text-decoration:none;">Cavab Verin Mailden</a></span> </p>
+      <footer class="blockquote-footer" style="color:white;">@item.CreatedDate.Day:@item.CreatedDate.Month:@item.CreatedDate.Year  <cite title="Source Title">Source Title</cite></footer>
+								<a asp-controller="home" asp-action="deletemuraciet" asp-route-id="@item.Id" style="color:white;text-decoration:none;">
+									<i class="fa-solid fa-trash"></i>
+								</a>
+						
+    </blockquote>
+  </div>
+</div>
+		}
+		
+	}
+		</div>
+	</section>
+</div>

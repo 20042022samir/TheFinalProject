@@ -1,0 +1,35 @@
+﻿    <link rel="stylesheet" href="./Assets/CSS/Agentlik.css">
+<link rel="stylesheet" href="./Assets/CSS/HomePage.css">
+@model IEnumerable<Agent>
+
+<!--section 1-->
+<section id="sectionn1">
+    <div id="section1Containerrr">
+        <div id="section1UP">
+            <h1>Agentlik</h1>
+        </div>
+        <div id="section1Down" style="align-items:center;">
+            @foreach (var item in Model)
+            {
+                <a asp-controller="agentlik" asp-action="detail" asp-route-id="@item.Id" style="text-decoration:none;color:black;">
+                <div class="agent">
+                    <div class="agentInfo">
+                        <img src="~/Assets/Images/@item.Image" style="width: 80px;">
+                        <div>
+                            <span>@item.FullName</span>
+                            <span>Agent</span>
+                        </div>
+                    </div>
+                    <div class="agentPhoneAndMail">
+                        <p><i class="fa-solid fa-envelope"></i>@item.Email</p>
+                        <p><i class="fa-solid fa-phone"></i>@item.PhoneNumber</p>
+                    </div>
+                </div>
+
+
+                </a>
+            }           
+        </div>
+    </div>
+</section>
+<script src="~/Assets/JS/FinalProje.js"></script>

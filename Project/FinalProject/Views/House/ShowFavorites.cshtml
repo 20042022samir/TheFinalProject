@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Favorite> 
+
+<style>
+	#section1Container{
+		width:1100px;
+		display:flex;
+		flex-wrap:wrap;
+		flex-direction:row;
+		column-gap:10px;
+		margin:auto;
+		justify-content:center;
+	}
+
+	@@media acreen and (max-width:1100px){
+		#section1Container{
+			width:890px
+		}
+	}
+	@@media screen and (max-width:890px){
+		#section1Container{
+			width:430px;
+		}
+	}
+	@@media screen and (max-width:430px){
+		#section1Container{
+			width:320px;
+		}
+	}
+
+</style>
+
+@{
+	int num = 0;
+}
+
+@if (num == 0 && !string.IsNullOrWhiteSpace((string)TempData["Removed"]))
+{
+	<div style="display:none" id="alert-message">@TempData["Removed"]</div>
+}
+
+@if(Model.Count()!=0){
+	<!--setion1-->
+	<h1 style="text-align:center;">Beyendikleriniz ❤️</h1>
+	<section id="section1" style="margin:100px 0px;" >
+       <div id="section1Container"   >
+	@foreach (var item in Model)
+			{
+				@if (!item.House.IsDeleted)
+				{					
+				<div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="~/Assets/Images/@item.House.houseImages.FirstOrDefault(x=>x.IsMain).Image" alt="Card image cap" style="width:100%;height:300px;" >
+  <div class="card-body">
+
+    <h5 class="card-title">@item.House.FullName</h5>
+    <p class="card-text">@item.House.Price</p>
+	<span>@item.House.CreatedDate.Day:@item.House.CreatedDate.Month:@item.House.CreatedDate.Year</span>
+						<a asp-controller="house" asp-action="detail" asp-route-id="@item.HouseId" class="btn btn-primary">Etrafli</a>
+						<a asp-controller="house" asp-action="removefromfavorites" asp-route-id="@item.Id" class="btn btn-primary" alt="remove">
+							<i class="fa-solid fa-trash"></i>
+		</a>
+  </div>
+</div>
+				}
+	}
+	   </div>
+	</section>
+}
+else
+{
+	<div style="display:flex;flex-direction:column;row-gap:10px;justify-content:center;align-items:center;margin:140px 0px;">
+	<h1 style="color:red;text-align:center;">Sizin Secilmislere elave etdiyiniz ev yoxdur</h1>
+	<img src="~/Assets/Images/ErrorPageSadImage.png" style="width:300px;" />
+	</div>
+}
+
+
+
+<script>
+	let num = 0;
+
+	const alertmessage = document.getElementById("alert-message")
+	if (alertmessage != undefined) {
+		const message = alertmessage.innerHTML;
+
+		if (num == 0 && message != "") {
+
+			Swal.fire({
+
+				title: `${message}`,
+				width: 600,
+				padding: '3em',
+				color: '#716add',
+				background: '#fff url(/images/trees.png)',
+				backdrop: `
+					rgba(0,0,123,0.4)
+					url("/images/nyan-cat.gif")
+					left top
+					no-repeat
+				  `
+			})
+			setTimeout(() => {
+				location.reload(true)
+			}, 2000)
+		}
+
+
+	}
+</script>
+

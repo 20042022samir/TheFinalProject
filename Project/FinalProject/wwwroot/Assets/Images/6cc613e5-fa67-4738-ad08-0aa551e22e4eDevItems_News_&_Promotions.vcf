@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION;TYPE=WORK:3.0
+FN;CHARSET=UTF-8:DevItems LLC
+N;CHARSET=UTF-8:DevItems LLC;;;;
+PROFILE:VCARD
+ADR;CHARSET=UTF-8:;;Alpharetta\, GA\,,USA;Alpharetta;GA;30009;USA
+EMAIL:admin@devitems.com
+ORG;CHARSET=UTF-8:DevItems LLC
+URL:http://devitems.com/
+END:VCARD

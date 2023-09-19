@@ -1,0 +1,63 @@
+﻿@model PagginationViewModel<House>
+<style>
+    #section1Container {
+        width: 1180px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+
+</style>
+
+@if (Model.Items.Count() == 0)
+{
+    <div style="text-align:center;color:red; margin:180px 0px;font-size:28px;">Kiraye Ucun hec bir ev yoxdur aid hec bir ev yoxdur</div>
+}
+else
+{
+
+    <!--section 1-->
+    <section id="section1">
+        <div id="section1Container" style="display:flex;flex-direction:column;">
+            <div>
+                <h2 style="color:red;">Kiraye ucun olan elanlar</h2>
+                <h2>En Yeniler</h2>
+            </div>
+            <div style="display:flex;flex-direction:row;gab:10px;flex-wrap:wrap;justify-content:center;">
+
+                @foreach (var item in Model.Items)
+                {
+                    <div class="card" style="width: 18rem;margin:10px;">
+                        <img src="~/Assets/Images/@item.houseImages.FirstOrDefault(a=>a.IsMain).Image" style="width:100%;height:250px;">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.FullName</h5>
+                            <p class="card-text">@item.Description</p>
+                            <span>@item.ViewCount</span>
+                            <a asp-controller="house" asp-action="detail" asp-route-id="@item.Id" class="btn btn-primary">Etrafli</a>
+                            @if(User.IsInRole("SuperAdmin")|| User.IsInRole("Admin"))
+							{
+				     			<a asp-controller="house" asp-action="DeleteByAdminShow" asp-route-id="@item.Id" style="padding:6px 8px;background-color:cornflowerblue;color:white;text-decoration:none;border-radius:7px;">Silin</a>
+							}
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination" style="justify-content:center;">
+        @for (int i = 1; i <= Model.TotalPages; i++)
+        {
+            <div style="padding:5px 8px;background-color:black;color:white;margin:5px;">
+                <a style="color:white;text-decoration:none;" href="@Url.Action("getrentedhouses", new { page = i, pageSize = Model.PageSize })">
+                    @i
+                </a>
+            </div>
+
+        }
+    </ul>
+</nav>
+}

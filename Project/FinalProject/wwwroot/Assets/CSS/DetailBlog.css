@@ -1,0 +1,247 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+
+}
+header nav{
+    width: 1190px;
+    height: 90px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: auto;
+    padding: 20px 10px;
+}
+#navbar{
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    align-items: center;
+}
+#navbar a{
+  font-weight: 500;
+  font-size: 20px;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+#headerBtns{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    align-items: center;
+}
+#headerBtns a{
+  text-decoration: none;
+  color: black;
+  background-color: transparent;
+  border-radius: 12px;
+  border: 3px solid gold;
+  width: 101px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  cursor: pointer;
+}
+#filterButton{
+    color: black;
+    background-color: transparent;
+    border-radius: 12px;
+    border: 3px solid gold;
+    width: 101px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    cursor: pointer;
+}
+
+#section{
+    padding-top: 50px;
+}
+
+/*footer*/
+#footerContainer{
+    margin: auto;
+    width: 1100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#footerLeft p{
+ color: white;
+}
+.footerRightPart{
+    display: flex;
+    flex-direction: column;
+    row-gap: 7px;
+}
+.footerRightPart a{
+    text-decoration: none;
+    color: white;
+    transition: 0.7s;
+}
+.footerRightPart a:hover{
+    color: #B1924C;
+}
+#seocialMedia i{
+    cursor: pointer;
+    transition: 0.7s;
+    font-size: 20px;
+}
+#seocialMedia i:hover{
+    color: #B1924C;
+}
+
+#section1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#section1Container{
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    width: 1190px;
+}
+#section1ContainerLeft{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+#BlogDetailImage{
+    width: 100%;
+}
+#BlogDetailImage img{
+    width: 100%;
+}
+#blogDetailed{
+    width: 100%;
+    word-wrap: break-word;
+}
+#section1ContainerRight{
+    display: flex;
+    padding-top: 30px;
+    width: 30%;
+}
+#Watchedd{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    row-gap: 20px;
+}
+#watchedList{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+.mostWatched{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    cursor: pointer;
+}
+.mostWatched p{
+    color: #B1924C;
+}
+/*tablet design*/
+@media screen and (max-width:1190px){
+    /* header*/
+    header{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }       
+    nav{
+        width: 780px;   
+    }
+    #navbar{
+        display: none;
+    }
+    #headerBtns a{
+        display: none;
+    }
+    #hamBurgerBtns{
+        display: initial;
+    }
+    .advContaainer{
+        display: none;
+    }
+
+    #footerContainer{
+        width: 780px;
+     }
+     #section1Container{
+        width: 780px;
+     }
+}
+
+/*phone design*/
+@media screen and (max-width:790px){
+    nav{
+        width: 330px;
+    }
+    #section1 #section1Container{
+        width:330px ;
+    }
+    #section1Up{
+        width: 339px;
+        flex-direction: column;
+        row-gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+    .cardPremium{
+        width: 300px;
+    }
+
+    /*footer*/
+    #footerContainer{
+        width: 330px;
+        flex-direction: column;
+        row-gap: 30px;
+    }
+    #seocialMedia{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 10px;
+    }
+    #footerLeft p{
+        text-align: center;
+    }
+    .blog{
+        display: flex;
+        flex-direction: column;
+    }
+    .blogImageContainer{
+        width: 290px;
+    }
+    #section1Container{
+        width: 380px;
+        flex-direction: column;
+    }
+    #section1ContainerLeft{
+        width: 100%;
+    }
+    #section1ContainerRight{
+        width: 100%;
+    }
+}
+h2,p{
+    letter-spacing: 1px;
+    font-weight: 400;
+}
